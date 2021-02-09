@@ -14,7 +14,7 @@ const submitForm = document.querySelector('input[type=submit]');
 submitForm.addEventListener('click', (ev) => {
     ev.preventDefault();
     
-    const res = checkReq(`http://127.0.0.1/check`)
+    const res = checkReq(`https://codewars-check.herokuapp.com/check`)
                 .then(res => res.json())
                 .then(r => {
                     
