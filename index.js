@@ -10,7 +10,7 @@ const submitForm = document.querySelector('input[type=submit]');
 submitForm.addEventListener('click', (ev) => {
     ev.preventDefault();
     
-    fetch('http://127.0.0.1/check', {
+    fetch('https://codewars-check.herokuapp.com/check', {
         method: 'post',
         headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -18,45 +18,45 @@ submitForm.addEventListener('click', (ev) => {
         },
         body: JSON.stringify({username: userName.value})
         })
-    .then(res => res.json())
-    .then(r => {
-                    
-        console.log(r);
-        const userImage = new Image(100, 100);
-        userImage.classList.add('user-image');
-        userImage.src = 'https://avatars.githubusercontent.com/u/36452096?s=100';
-        header.appendChild(userImage);
-
-        const checked = checkKata(tasksTextArea.value, r);
-        checked.tasksName.forEach((el, i) => {
+        .then(res => res.json())
+        .then(r => {
+                        
+            console.log(r);
             
-            const txt = `${i+1}. ${el.replaceAll('-', ' ').replace(el[0], el[0].toUpperCase())}: `;
-            const a = document.createElement('a');
-            const span = document.createElement('span');
-            const pseudoAfter = document.createElement('p');
+            const userImage = new Image(100, 100);
+            userImage.classList.add('user-image');
+            userImage.src = 'https://avatars.githubusercontent.com/u/36452096?s=100';
+            header.appendChild(userImage);
 
-            pseudoAfter.textContent = checked.checkedTasks[el] ? 'Done!' : 'Not completed.'; 
-            a.text = txt;
-            a.href = checked.tasksLinks[i];
-            a.setAttribute('target', '_blank')
-            checked.checkedTasks[el] ? pseudoAfter.style.color = 'green' : pseudoAfter.style.color = 'red';
+            const completedKatas = r.completed.flat();
+            const slugs = [...completedKatas.map(o => o.slug)];
 
-            
-            span.appendChild(a);
-            span.appendChild(pseudoAfter);
-            completedArea.appendChild(span);
+            const checked = checkKata(tasksTextArea.value, slugs);
+            checked.tasksName.forEach((el, i) => {
+                
+                const txt = `${i+1}. ${el.replaceAll('-', ' ').replace(el[0], el[0].toUpperCase())}: `;
+                const a = document.createElement('a');
+                const span = document.createElement('span');
+                const pseudoAfter = document.createElement('p');
+
+                pseudoAfter.textContent = checked.checkedTasks[el] ? 'Done!' : 'Not completed.'; 
+                a.text = txt;
+                a.href = checked.tasksLinks[i];
+                a.setAttribute('target', '_blank')
+                checked.checkedTasks[el] ? pseudoAfter.style.color = 'green' : pseudoAfter.style.color = 'red';
+
+                
+                span.appendChild(a);
+                span.appendChild(pseudoAfter);
+                completedArea.appendChild(span);
+            });
+            return r; 
         });
-        return r; 
-    });
 
 })
 
-function checkKata(requiredTasks, apiResJSON) {
-        const allCompletedTasks = [];
-    
-        apiResJSON.data.forEach(element => {
-            allCompletedTasks.push(element.slug)
-        });
+function checkKata(requiredTasks, slugs) {
+        const allCompletedTasks = [...slugs];
 
         const reLink = /((http(s)?:\/\/)?(www\.)?)?codewars\.com\/kata\/[\/a-z0-9._&?%$-]*/i
         const reTask = /((http(s)?:\/\/)?(www\.)?)?codewars\.com\/kata\/([a-z0-9._&?%$-]*)+/i
