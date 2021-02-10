@@ -1,7 +1,3 @@
-function checkReq(url, options = {}) {
-    return fetch(url, options)
-}
-
 const header = document.querySelector('header');
 const tasksForm = document.forms.tasks; //document.querySelector('form[name=tasks]');
 const taskFormElems = tasksForm.elements;
@@ -14,11 +10,18 @@ const submitForm = document.querySelector('input[type=submit]');
 submitForm.addEventListener('click', (ev) => {
     ev.preventDefault();
     
-    const res = checkReq(`https://codewars-check.herokuapp.com/check`)
-                .then(res => res.json())
-                .then(r => {
+    fetch('http://127.0.0.1/check', {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({username: userName.value})
+        })
+    .then(res => res.json())
+    .then(r => {
                     
-        
+        console.log(r);
         const userImage = new Image(100, 100);
         userImage.classList.add('user-image');
         userImage.src = 'https://avatars.githubusercontent.com/u/36452096?s=100';
