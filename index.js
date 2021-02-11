@@ -9,6 +9,7 @@ const submitForm = document.querySelector('input[type=submit]');
 
 submitForm.addEventListener('click', (ev) => {
     ev.preventDefault();
+    completedArea.innerHTML = ''
     
     fetch('https://codewars-check.herokuapp.com/check', {
         method: 'post',

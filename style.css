@@ -155,7 +155,8 @@ textarea {
     resize: none;
     background-color: #303133;
     border-radius: .75em;
-    color: white;
+    color: lightslategray;
+    font-size: 1em;
     border: none;
 }
 
@@ -183,9 +184,9 @@ textarea:focus {
 .output a {
     display: inline-block;
     padding: 0 1em;
-    font-size: .8em;
+    font-size: .9em;
     line-height: 1.5em;
-    color: white;
+    color: whitesmoke;
     text-decoration: none;
 }
 
