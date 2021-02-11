@@ -10,6 +10,10 @@ const submitForm = document.querySelector('input[type=submit]');
 submitForm.addEventListener('click', (ev) => {
     ev.preventDefault();
     completedArea.innerHTML = ''
+
+    if (!userName.value || !tasksTextArea.value) {
+        alert('Fill Username and Task fields!')
+    }
     
     fetch('https://codewars-check.herokuapp.com/check', {
         method: 'post',

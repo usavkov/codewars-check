@@ -16,7 +16,7 @@
             <h1>Codewars Kata Check</h1>
             <h2 class="name"></h2>
             <p class="user-name"></p>
-            <input type="text" name="username" id="username" class="username" placeholder="Codewars' username">
+            <input type="text" name="username" id="username" class="username" placeholder="Codewars' username" required>
         </div>
         <div class="stats">
             <p class="rank hidden"></p>
@@ -27,9 +27,13 @@
     </header>
     <main>
         <form name="tasks" class="tasks" id="tasks" method="POST">
-            <textarea name="tasksList" id="tasksList" cols="30" rows="10" placeholder="Input Kata's list (You can use id or slug of kata also as link e.g. 'https://www.codewars.com/kata/opposite-number'
+            <textarea name="tasksList" id="tasksList" cols="30" rows="10" placeholder="Input Kata's links (https://www.codewars.com/kata/<ID_or_Slug>)
+Each kata with new line!
 
-Each kata with new line!"></textarea>
+E.g.
+'https://www.codewars.com/kata/opposite-number' 
+    ...
+'https://www.codewars.com/kata/56e2f59fb2ed128081001328' " required></textarea>
             <div class="output">
             </div>
             <div class="buttons">
