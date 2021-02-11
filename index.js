@@ -22,10 +22,16 @@ submitForm.addEventListener('click', (ev) => {
         .then(res => res.json())
         .then(r => {
             
+            console.log(r);
             const completedKatas = r.completed.flat();
             const slugs = [...completedKatas.map(o => o.slug)];
+            const ids = [...completedKatas.map(o => o.id)];
+            const katas = {
+                slugs,
+                ids
+            }
 
-            const checked = checkKata(tasksTextArea.value, slugs);
+            const checked = checkKata(tasksTextArea.value, katas);
             checked.tasksName.forEach((el, i) => {
                 
                 const txt = `${i+1}. ${el.replaceAll('-', ' ').replace(el[0], el[0].toUpperCase())}: `;
@@ -67,8 +73,9 @@ submitForm.addEventListener('click', (ev) => {
 
 })
 
-function checkKata(requiredTasks, slugs) {
-        const allCompletedTasks = [...slugs];
+function checkKata(requiredTasks, katas) {
+        const completedSlugs = [...katas.slugs];
+        const completedIDs = [...katas.ids];
 
         const reLink = /((http(s)?:\/\/)?(www\.)?)?codewars\.com\/kata\/[\/a-z0-9._&?%$-]*/i
         const reTask = /((http(s)?:\/\/)?(www\.)?)?codewars\.com\/kata\/([a-z0-9._&?%$-]*)+/i
@@ -81,7 +88,7 @@ function checkKata(requiredTasks, slugs) {
                         ];
         
         const result = tasksRequiered.reduce((acc, cur) => {
-            acc[cur] = allCompletedTasks.includes(cur);
+            acc[cur] = (completedSlugs.includes(cur) || completedIDs.includes(cur));
             return acc;
         }, {});
     

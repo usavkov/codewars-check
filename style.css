@@ -161,7 +161,7 @@ textarea {
 }
 
 textarea:focus {
-    border: 3px solid #485563;
+    box-shadow: 0 0 0 3px #485563;
     outline: none;
 }
 
