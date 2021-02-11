@@ -1,43 +1,174 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
+
+:root {
+    font-family: 'Lato', 'Open Sans', sans-serif;
+}
 
 * {
     box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;;
+    margin: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+h1,
+h2,
+h3,
+p {
+    color: white;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #424242;
+    border-radius: .75em;
+}
+
+.hidden {
+    display: none;
+}
+
+body {
+    background-color: #222;
 }
 
 header {
+    height: 120px;
     display: grid;
+    justify-items: left;
+    align-items: center;
+    padding: 0 1em;
+    grid-template-columns: 4.5em repeat(2, 1fr);
     gap: 2em;
 }
 
 .user-image {
+    height: 4.5em;
+    width: 4.5em;
     border-radius: 50%;
-    margin: 2em;
+}
+
+.info {
+    display: grid;
+    gap: .25em;
 }
 
 .username {
-    grid-column: 2 span;
+    width: 250px;
+    height: 1.75em;
+    padding-left: .75em;
+    margin-top: 1em;
+    background-color: #222; 
+    box-shadow: 0 0 0 1px #3f3f46;
+    border-radius: .25em;
+    outline: none;
+    border: none;
+    color: white;
+    font-weight: 400;
+}
+
+.username:focus {
+    box-shadow: 0 0 0 2pt #485563;
+}
+
+.stats {
+    display: grid;
+}
+
+.stats *::before {
+    font-weight: 600;
+    color: #b0b0b0;
+}
+
+.rank::before {
+    content: 'Rank: ';
+}
+
+.honor::before {
+    content: 'Honor: ';
+}
+
+.leader-position::before {
+    content: 'Leaderboard Position: '
+}
+
+.total-kata::before {
+    content: 'Total Completed Kata: '
 }
 
 .tasks {
+    height: calc(100vh - 120px);
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 2em 500px 2em;
+    grid-template-rows: 1fr 2em;
+    gap: 1em;
+    padding: 1em;
+}
+
+.buttons {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(2, 6em);
     gap: 1em;
 }
 
+.submit,
+.reset {
+    width: 6em;
+    justify-self: center;
+    background-color: #1E1F21;
+    color: #6795DE;
+    outline: none;
+    border: 1.5px solid #6795DE;
+    font-weight: 400;
+    border-radius: 5px;
+    transition: background-color .15s;
+}
+
 .submit {
-    grid-column: 2 span;
+    background-color: #6795DE;
+    color: #1E1F21;
+}
+
+.submit:hover {
+    cursor: pointer;
+    background-color: #7CA4E3;
+    border: 1.5px solid #7CA4E3;
+}
+
+.reset:hover {
+    background-color: #0B0C0C;
+    cursor: pointer;
 }
 
 textarea {
-    min-height: 500px;
+    min-height: 150px;
+    padding: 1em;
     resize: none;
+    background-color: #303133;
+    border-radius: .75em;
+    color: white;
+    border: none;
+}
+
+textarea:focus {
+    border: 3px solid #485563;
+    outline: none;
 }
 
 .output {
-    border: 1px solid black;
+    min-height: 150px;
     display: grid;
+    background-color: #303133;
+    border-radius: .75em;
     overflow-y: scroll;
 }
 
@@ -46,14 +177,15 @@ textarea {
 }
 
 .output > span:nth-child(even) {
-    background-color: rgb(238, 236, 236);
+    background-color: #3e3e3e;
 }
 
 .output a {
     display: inline-block;
+    padding: 0 1em;
     font-size: .8em;
     line-height: 1.5em;
-    color: black;
+    color: white;
     text-decoration: none;
 }
 
@@ -64,4 +196,13 @@ textarea {
     font-size: .8em;
     font-weight: bold;
     line-height: 1.25em;
+}
+
+.total-block {
+    display: grid;
+    justify-content: center;
+}
+
+.total {
+    margin: 0;
 }

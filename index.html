@@ -6,19 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="index.js" defer></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@1.0.0/modern-normalize.min.css">
     <title>Check katas</title>
 </head>
 <body>
     <header>
+        <img src="logo.png" class="user-image" alt="Picture">
+        <div class="info">
+            <h1>Codewars Kata Check</h1>
+            <h2 class="name"></h2>
+            <p class="user-name"></p>
+            <input type="text" name="username" id="username" class="username" placeholder="Codewars' username">
+        </div>
+        <div class="stats">
+            <p class="rank hidden"></p>
+            <p class="honor hidden"></p>
+            <p class="leader-position hidden"></p>
+            <p class="total-kata hidden"></p>
+        </div>
     </header>
     <main>
         <form name="tasks" class="tasks" id="tasks" method="POST">
-            <input type="text" name="username" id="username" class="username" placeholder="Input your Codewars' username">
             <textarea name="tasksList" id="tasksList" cols="30" rows="10"></textarea>
             <div class="output">
-    
             </div>
-            <input type="submit" class="submit" value="Check">
+            <div class="buttons">
+                <input type="submit" class="submit" value="CHECK">
+                <input type="reset" class="reset" value="RESET">
+            </div>
+            <div class="total-block">
+                <h3 class="total"></h3>
+            </div>
         </form>
     </main>
     <footer></footer>

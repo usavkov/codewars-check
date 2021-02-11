@@ -20,14 +20,7 @@ submitForm.addEventListener('click', (ev) => {
         })
         .then(res => res.json())
         .then(r => {
-                        
-            console.log(r);
             
-            const userImage = new Image(100, 100);
-            userImage.classList.add('user-image');
-            userImage.src = 'https://avatars.githubusercontent.com/u/36452096?s=100';
-            header.appendChild(userImage);
-
             const completedKatas = r.completed.flat();
             const slugs = [...completedKatas.map(o => o.slug)];
 
@@ -50,6 +43,24 @@ submitForm.addEventListener('click', (ev) => {
                 span.appendChild(pseudoAfter);
                 completedArea.appendChild(span);
             });
+
+            document.querySelector('h1').classList.add('hidden');
+            
+            document.querySelector('.user-image').src = r.avatar;
+            document.querySelector('.name').textContent = r.name;
+            document.querySelector('.user-name').textContent = r.name ? `@${r.username}` : 'Not found! Check "Username" field';
+           
+            document.querySelector('.rank').textContent = r.ranks.overall.name;
+            document.querySelector('.rank').classList.remove('hidden');
+            document.querySelector('.honor').textContent = r.honor;
+            document.querySelector('.honor').classList.remove('hidden');
+            document.querySelector('.leader-position').textContent = `№ ${r.leaderboardPosition}`;
+            document.querySelector('.leader-position').classList.remove('hidden');
+            document.querySelector('.total-kata').textContent = r.items;
+            document.querySelector('.total-kata').classList.remove('hidden');
+            
+            document.querySelector('.total').textContent = `${checked.completed} / ${checked.required}`;
+
             return r; 
         });
 
@@ -80,6 +91,7 @@ function checkKata(requiredTasks, slugs) {
         tasksRequiered.forEach(el => tasksHrefs.push(`http://www.codewars.com/kata/${el}`))
 
         const output = {
+            required: tasksRequiered.length,
             completed: completedTasksCount,
             tasksName: tasksRequiered,
             checkedTasks: result,
