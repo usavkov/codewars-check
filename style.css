@@ -32,6 +32,13 @@ p {
     border-radius: .75em;
 }
 
+.loader {
+    width: 100px;
+    height: 100px;
+    transition: all .9s;
+    justify-self: center;
+}
+
 .hidden {
     display: none;
 }
@@ -168,35 +175,43 @@ textarea:focus {
 .output {
     min-height: 150px;
     display: grid;
+    align-items: center;
     background-color: #303133;
     border-radius: .75em;
     overflow-y: scroll;
 }
 
-.output span {
-    height: auto;
-}
-
-.output > span:nth-child(even) {
-    background-color: #3e3e3e;
-}
-
-.output a {
+.output > a {
     display: inline-block;
     padding: 0 1em;
     font-size: .9em;
     line-height: 1.5em;
     color: whitesmoke;
     text-decoration: none;
+    transition: background-color .05s;
+}
+
+.output > a:hover {
+    background-color: #6795DE50 !important;
+    cursor: pointer;
+}
+
+.output > a:nth-child(even) {
+    background-color: #3e3e3e;
 }
 
 .output p {
     display: inline-block;
     margin: 0;
     padding-left: .5em;
-    font-size: .8em;
+    font-size: .9em;
     font-weight: bold;
     line-height: 1.25em;
+}
+
+.output h4 {
+    display: inline-block;
+    font-weight: 400;
 }
 
 .total-block {

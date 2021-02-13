@@ -9,73 +9,118 @@ const submitForm = document.querySelector('input[type=submit]');
 
 submitForm.addEventListener('click', (ev) => {
     ev.preventDefault();
-    completedArea.innerHTML = ''
+    runCheck();    
+})
 
+function runCheck() {
     if (!userName.value || !tasksTextArea.value) {
         alert('Fill Username and Task fields!')
-    }
-    
-    fetch('https://codewars-check.herokuapp.com/check', {
+    } else {
+
+        completedArea.innerHTML = `<img src="loader.png" class="loader">`
+        let initDegree = 0; 
+        const loader = document.querySelector('.loader');
+        const loaderInt = setInterval(() => {
+            const deg = initDegree;
+            loader.style.transform = `rotate(${deg}deg)`
+            if (initDegree > Number.MIN_SAFE_INTEGER - 20) {
+                initDegree -= 20
+            } else initDegree = 0;
+        }, 100)
+
+        
+        
+        // fetch('https://codewars-check.herokuapp.com/check', {
+        fetch('http://127.0.0.1/check', {
         method: 'post',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({username: userName.value})
-        })
-        .then(res => res.json())
-        .then(r => {
-            
-            console.log(r);
-            const completedKatas = r.completed.flat();
-            const slugs = [...completedKatas.map(o => o.slug)];
-            const ids = [...completedKatas.map(o => o.id)];
-            const katas = {
-                slugs,
-                ids
-            }
-
-            const checked = checkKata(tasksTextArea.value, katas);
-            checked.tasksName.forEach((el, i) => {
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username: userName.value})
+            })
+            .then(res => res.json())
+            .then(r => {
                 
-                const txt = `${i+1}. ${el.replaceAll('-', ' ').replace(el[0], el[0].toUpperCase())}: `;
-                const a = document.createElement('a');
-                const span = document.createElement('span');
-                const pseudoAfter = document.createElement('p');
+                if (r.success) {
+                    const completedKatas = r.completed.flat();
+                    const slugs = [...completedKatas.map(o => o.slug)];
+                    const ids = [...completedKatas.map(o => o.id)];
+                    const katas = {
+                        slugs,
+                        ids
+                    }
 
-                pseudoAfter.textContent = checked.checkedTasks[el] ? 'Done!' : 'Not completed.'; 
-                a.text = txt;
-                a.href = checked.tasksLinks[i];
-                a.setAttribute('target', '_blank')
-                checked.checkedTasks[el] ? pseudoAfter.style.color = 'green' : pseudoAfter.style.color = 'red';
+                    const checked = checkKata(tasksTextArea.value, katas);
 
+                    if (checked.tasksName.length > 0) {
+                        /* Output here */
+
+                        fetch('http://127.0.0.1/kata', {
+                                method: 'post',
+                                headers: {
+                                    'Accept': 'application/json, text/plain, */*',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({slug_or_id: checked.tasksName})
+                            })
+                            .then(res => res.json())
+                            .then(r => {
+                                completedArea.innerHTML = '';
+                                clearInterval(loaderInt);
+
+                                for (let i = 0; i < checked.tasksName.length; i++) {
+                                    const txt = `${i + 1}. ${r[checked.tasksName[i]]}`;
+                                    const h4 = document.createElement('h4');
+                                    const a = document.createElement('a');
+                                    const pseudoAfter = document.createElement('p');
+
+                                    pseudoAfter.textContent = checked.checkedTasks[checked.tasksName[i]] ? 'Done!' : 'Not completed.'; 
+                                    h4.textContent = txt;
+                                    a.href = checked.tasksLinks[i];
+                                    a.setAttribute('target', '_blank')
+                                    checked.checkedTasks[checked.tasksName[i]] ? pseudoAfter.style.color = 'green' : pseudoAfter.style.color = 'red';
+
+                                    
+                                    a.appendChild(h4);
+                                    a.appendChild(pseudoAfter);
+                                    completedArea.appendChild(a); 
+                                }
+                            })
+
+                    } else {
+                        completedArea.innerHTML = '<h3 style="text-align: center">Tasks not found<h3>'
+                    }
+
+                    document.querySelector('h1').classList.add('hidden');
+                    
+                    document.querySelector('.user-image').src = r.avatar;
+                    document.querySelector('.name').textContent = r.name;
+                    document.querySelector('.user-name').textContent = `@${r.username}`;
                 
-                span.appendChild(a);
-                span.appendChild(pseudoAfter);
-                completedArea.appendChild(span);
+                    document.querySelector('.rank').textContent = r.ranks.overall.name;
+                    document.querySelector('.rank').classList.remove('hidden');
+                    document.querySelector('.honor').textContent = numberWithSep(r.honor, ' ');
+                    document.querySelector('.honor').classList.remove('hidden');
+                    document.querySelector('.leader-position').textContent = `№ ${numberWithSep(r.leaderboardPosition, ' ')}`;
+                    document.querySelector('.leader-position').classList.remove('hidden');
+                    document.querySelector('.total-kata').textContent = numberWithSep(r.items, ' ');
+                    document.querySelector('.total-kata').classList.remove('hidden');
+                    
+                    document.querySelector('.total').textContent = `${checked.completed} / ${checked.required}`;
+
+                    return r;
+
+                } else {
+                    clearInterval(loaderInt);
+                    document.querySelector('.name').textContent = 'Not found! Check "Username" field';
+                    completedArea.innerHTML = '';
+                    userName.focus();
+                }
+                
             });
-
-            document.querySelector('h1').classList.add('hidden');
-            
-            document.querySelector('.user-image').src = r.avatar;
-            document.querySelector('.name').textContent = r.name;
-            document.querySelector('.user-name').textContent = r.name ? `@${r.username}` : 'Not found! Check "Username" field';
-           
-            document.querySelector('.rank').textContent = r.ranks.overall.name;
-            document.querySelector('.rank').classList.remove('hidden');
-            document.querySelector('.honor').textContent = r.honor;
-            document.querySelector('.honor').classList.remove('hidden');
-            document.querySelector('.leader-position').textContent = `№ ${r.leaderboardPosition}`;
-            document.querySelector('.leader-position').classList.remove('hidden');
-            document.querySelector('.total-kata').textContent = r.items;
-            document.querySelector('.total-kata').classList.remove('hidden');
-            
-            document.querySelector('.total').textContent = `${checked.completed} / ${checked.required}`;
-
-            return r; 
-        });
-
-})
+    }
+}
 
 function checkKata(requiredTasks, katas) {
         const completedSlugs = [...katas.slugs];
@@ -111,4 +156,8 @@ function checkKata(requiredTasks, katas) {
         };
 
     return output;
+}
+
+function numberWithSep(x, sep) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, sep.toString());
 }
