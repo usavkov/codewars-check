@@ -17,6 +17,7 @@ function runCheck() {
         alert('Fill Username and Task fields!')
     } else {
 
+        document.querySelector('.total').textContent = ''
         completedArea.innerHTML = `<img src="loader.png" class="loader">`
         let initDegree = 0; 
         const loader = document.querySelector('.loader');
