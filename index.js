@@ -30,6 +30,7 @@ function runCheck() {
 
         
         
+        // fetch('http://127.0.0.1/check', {
         fetch('https://codewars-check.herokuapp.com/check', {
             method: 'post',
             headers: {
@@ -55,7 +56,8 @@ function runCheck() {
                     if (checked.tasksName.length > 0) {
                         /* Output here */
 
-                        fetch('https://codewars-check.herokuapp.com//kata', {
+                        // fetch('http://127.0.0.1/kata', {
+                        fetch('https://codewars-check.herokuapp.com/kata', {
                                 method: 'post',
                                 headers: {
                                     'Accept': 'application/json, text/plain, */*',
