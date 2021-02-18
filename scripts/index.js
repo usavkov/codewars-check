@@ -6,9 +6,9 @@ const completedArea = document.querySelector('.output');
 const userName = document.querySelector('#username');
 const submitForm = document.querySelector('input[type=submit]');
 
-tasksTextArea.value = localStorage.text
-completedArea.innerHTML = localStorage.output || ''
-userName.value = localStorage.username || ''
+tasksTextArea.value = localStorage.text || '';
+completedArea.innerHTML = localStorage.output || '';
+userName.value = localStorage.username || '';
 
 tasksTextArea.addEventListener('change', () => {
     addToLocalStorage('text', tasksTextArea.value)
