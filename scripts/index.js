@@ -34,7 +34,7 @@ function runCheck() {
         alert('Fill Username and Task fields!')
     } else {
 
-        userImage.src = '../logo.png'
+        userImage.src = 'logo.png'
 
         rankBadge.innerHTML = '';
         rankBadge.classList.add('hidden');
