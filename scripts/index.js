@@ -1,10 +1,17 @@
 const header = document.querySelector('header');
+const userImage = document.querySelector('.user-image');
+const fullName = document.querySelector('.name');
+const username = document.querySelector('.user-name');
 const tasksForm = document.forms.tasks; //document.querySelector('form[name=tasks]');
 const taskFormElems = tasksForm.elements;
 const tasksTextArea = document.querySelector('#tasksList');
 const completedArea = document.querySelector('.output');
 const userName = document.querySelector('#username');
 const submitForm = document.querySelector('input[type=submit]');
+const rankBadge = document.querySelector('.rank-badge');
+const honor = document.querySelector('.honor');
+const leaderPos = document.querySelector('.leader-position');
+const totalKata = document.querySelector('.total-kata');
 
 tasksTextArea.value = localStorage.text || '';
 completedArea.innerHTML = localStorage.output || '';
@@ -27,8 +34,29 @@ function runCheck() {
         alert('Fill Username and Task fields!')
     } else {
 
-        document.querySelector('.total').textContent = ''
-        completedArea.innerHTML = `<img src="loader.png" class="loader">`
+        userImage.src = '../logo.png'
+
+        rankBadge.innerHTML = '';
+        rankBadge.classList.add('hidden');
+        rankBadge.classList.forEach(cls => {
+            if (cls !== 'rank-badge' && cls !== 'hidden') {
+                rankBadge.classList.remove(cls);
+            };
+        });
+        
+        if (fullName && username && honor && leaderPos && totalKata) {
+            fullName.textContent = ' ';
+            username.textContent = ' ';
+            honor.textContent = '';
+            leaderPos.textContent = '';
+            totalKata.textContent = '';
+        }
+
+        document.querySelector('.total').textContent = '';
+
+
+
+        completedArea.innerHTML = `<img src="loader.png" class="loader">`;
         let initDegree = 0; 
         const loader = document.querySelector('.loader');
         const loaderInt = setInterval(() => {
@@ -78,11 +106,12 @@ function runCheck() {
                             })
                             .then(res => res.json())
                             .then(r => {
+
                                 completedArea.innerHTML = '';
                                 clearInterval(loaderInt);
-
+                                
                                 for (let i = 0; i < checked.tasksName.length; i++) {
-                                    const txt = `${i + 1}. ${r[checked.tasksName[i]]}`;
+                                    const txt = r[checked.tasksName[i]] ? `${i + 1}. ${r[checked.tasksName[i]]}` : `${i + 1}. Wrong kata\'s name! " ${checked.tasksName[i]} "`;
                                     const h4 = document.createElement('h4');
                                     const a = document.createElement('a');
                                     const pseudoAfter = document.createElement('p');
@@ -95,7 +124,14 @@ function runCheck() {
 
                                     
                                     a.appendChild(h4);
-                                    a.appendChild(pseudoAfter);
+                                    if (r[checked.tasksName[i]]) {
+                                        a.appendChild(pseudoAfter);
+                                    };
+                                    
+                                    if (!r[checked.tasksName[i]]) {
+                                        h4.style.color = 'red';
+                                    }
+
                                     completedArea.appendChild(a);
                                     localStorage.setItem('output', `${completedArea.innerHTML}`)
                                     localStorage.setItem('username', `${userName.value}`)
@@ -108,18 +144,29 @@ function runCheck() {
 
                     document.querySelector('h1').classList.add('hidden');
                     
-                    document.querySelector('.user-image').src = r.avatar;
-                    document.querySelector('.name').textContent = r.name;
-                    document.querySelector('.user-name').textContent = `@${r.username}`;
-                
-                    document.querySelector('.rank').textContent = r.ranks.overall.name;
-                    document.querySelector('.rank').classList.remove('hidden');
-                    document.querySelector('.honor').textContent = numberWithSep(r.honor, ' ');
-                    document.querySelector('.honor').classList.remove('hidden');
-                    document.querySelector('.leader-position').textContent = `№ ${numberWithSep(r.leaderboardPosition, ' ')}`;
-                    document.querySelector('.leader-position').classList.remove('hidden');
-                    document.querySelector('.total-kata').textContent = numberWithSep(r.items, ' ');
-                    document.querySelector('.total-kata').classList.remove('hidden');
+                    userImage.src = r.avatar;
+                    fullName.textContent = r.name;
+                    username.textContent = `@${r.username}`;
+                    
+
+                    const divRang = document.createElement('div');
+                    divRang.classList.add('inner-rank-badge');
+                    divRang.classList.add(`is-${r.ranks.overall.color}-rank`);
+                    const spanRang = document.createElement('span');
+                    spanRang.textContent = r.ranks.overall.name;
+                    divRang.appendChild(spanRang);
+                    rankBadge.appendChild(divRang);
+                    rankBadge.classList.add(`is-${r.ranks.overall.color}-rank`);
+                    rankBadge.classList.remove('hidden');
+
+                    honor.textContent = numberWithSep(r.honor, ' ');
+                    honor.classList.remove('hidden');
+
+                    leaderPos.textContent = `№ ${numberWithSep(r.leaderboardPosition, ' ')}`;
+                    leaderPos.classList.remove('hidden');
+                    
+                    totalKata.textContent = numberWithSep(r.items, ' ');
+                    totalKata.classList.remove('hidden');
                     
                     document.querySelector('.total').textContent = `${checked.completed} / ${checked.required}`;
 
