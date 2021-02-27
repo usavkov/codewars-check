@@ -3,6 +3,13 @@
 
 :root {
     font-family: 'Lato', 'Open Sans', sans-serif;
+    --color-rank-white: #e6e6e6;
+    --color-rank-yellow: #ecb613;
+    --color-rank-blue: #3c7ebb;
+    --color-rank-purple: #866cc7;
+    --color-rank-red: #bb432c;
+    --color-rank-black-dark: #333;
+    --rank-background-color: #181919;
 }
 
 * {
@@ -37,6 +44,7 @@ p {
     height: 100px;
     transition: all .9s;
     justify-self: center;
+    align-self: center;
 }
 
 .hidden {
@@ -68,6 +76,14 @@ header {
     gap: .25em;
 }
 
+.name {
+    margin-right: 12px;
+}
+
+.name-rang {
+    display: flex;
+}
+
 .username {
     width: 250px;
     height: 1.75em;
@@ -95,9 +111,241 @@ header {
     color: #b0b0b0;
 }
 
-.rank::before {
-    content: 'Rank: ';
+/*  */
+
+.is-white-rank {
+	color: #e6e6e6;
+	color: var(--color-rank-white)
 }
+
+.is-yellow-rank {
+	color: #ecb613;
+	color: var(--color-rank-yellow)
+}
+
+.is-blue-rank {
+	color: #3c7ebb;
+	color: var(--color-rank-blue)
+}
+
+.is-purple-rank {
+	color: #866cc7;
+	color: var(--color-rank-purple)
+}
+
+.is-red-rank {
+	color: #bb432c;
+	color: var(--color-rank-red)
+}
+
+.is-black-rank {
+	color: #333;
+	color: var(--color-rank-black-dark)
+}
+
+.rank-badge {
+    height: 26px;
+    width: 34px;
+    color: #f4f4f5;
+    position: relative;
+    margin-right: 8px;
+    margin-left: 8px;
+    text-align: center;
+    font-weight: 700;
+    z-index: 1;
+    text-shadow: none;
+    line-height: 28px;
+    font-size: 12px;
+}
+
+.rank-badge.is-white-rank {
+    background-color: #e6e6e6;
+    background-color: var(--color-rank-white);
+}
+
+.rank-badge.is-yellow-rank {
+    background-color: #ecb613;
+    background-color: var(--color-rank-yellow);
+}
+
+.rank-badge.is-blue-rank {
+    background-color: #3c7ebb;
+    background-color: var(--color-rank-blue);
+}
+
+.rank-badge.is-purple-rank {
+    background-color: #866cc7;
+    background-color: var(--color-rank-purple);
+}
+
+.rank-badge.is-red-rank {
+    background-color: #bb432c;
+    background-color: var(--color-rank-red);
+}
+
+.rank-badge.is-black-rank {
+    background-color: #333;
+    background-color: var(--color-rank-black-dark);
+}
+
+.rank-badge:after, .rank-badge:before {
+    width: 0;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+    position: absolute;
+    z-index: 0;
+    -moz-transform: scale(.9999);
+}
+
+.rank-badge:before {
+    content: " ";
+    height: 0;
+    border-right: 8px solid;
+    left: -8px;
+}
+
+.rank-badge.is-white-rank::before {
+    border-right-color: #f4f4f5;
+    border-right-color: var(--color-rank-white);
+}
+
+.rank-badge.is-yellow-rank::before {
+    border-right-color: #ecb613;
+    border-right-color: var(--color-rank-yellow);
+}
+
+.rank-badge.is-blue-rank::before {
+    border-right-color: #3c7ebb;
+    border-right-color: var(--color-rank-blue);
+}
+
+.rank-badge.is-purple-rank::before {
+    border-right-color: #866cc7;
+    border-right-color: var(--color-rank-purple);
+}
+
+.rank-badge.is-red-rank::before {
+    border-right-color: #bb432c;
+    border-right-color: var(--color-rank-red);
+}
+
+.rank-badge.is-black-rank::before {
+    border-right-color: #333;
+    border-right-color: var(--color-rank-black-dark);
+}
+
+.rank-badge:after {
+    content: "";
+    right: -8px;
+    top: 0;
+    border-left: 8px solid;
+}
+
+.rank-badge.is-white-rank::after {
+    border-left-color: #f4f4f5;
+    border-left-color: var(--color-rank-white);
+}
+
+.rank-badge.is-yellow-rank::after {
+    border-left-color: #ecb613;
+    border-left-color: var(--color-rank-yellow);
+}
+
+.rank-badge.is-blue-rank::after {
+    border-left-color: #3c7ebb;
+    border-left-color: var(--color-rank-blue);
+}
+
+.rank-badge.is-purple-rank::after {
+    border-left-color: #866cc7;
+    border-left-color: var(--color-rank-purple);
+}
+
+.rank-badge.is-red-rank::after {
+    border-left-color: #bb432c;
+    border-left-color: var(--color-rank-red);
+}
+
+.rank-badge.is-black-rank::after {
+    border-left-color: #333;
+    border-left-color: var(--color-rank-black-dark);
+}
+
+/* ------------------- */
+
+.inner-rank-badge {
+    height: 22px;
+    width: 32px;
+    background-color: var(--rank-background-color);
+    position: relative;
+    margin-right: 6px;
+    text-align: center;
+    line-height: 22px;
+    z-index: 1;
+    text-shadow: none;
+    margin-left: 1px;
+    top: 2px;
+    font-size: 11px;
+}
+
+.inner-rank-badge.is-white-rank {
+    color: #f4f4f5;
+    color: var(--color-rank-white)
+}
+
+.inner-rank-badge.is-yellow-rank {
+    color: #ecb613;
+    color: var(--color-rank-yellow);
+}
+
+.inner-rank-badge.is-blue-rank {
+    color: #3c7ebb;
+    color: var(--color-rank-blue);
+}
+
+.inner-rank-badge.is-purple-rank {
+    color: #866cc7;
+    color: var(--color-rank-purple)
+}
+
+.inner-rank-badge.is-red-rank {
+    color: #bb432c;
+    color: var(--color-rank-red);
+}
+
+.inner-rank-badge.is-black-rank {
+    color: #555;
+    font-weight: 900;
+}
+
+/* ------------- */
+
+.inner-rank-badge:after, .inner-rank-badge:before {
+    width: 0;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    position: absolute;
+    z-index: 0;
+    -moz-transform: scale(.9999);
+}
+
+.inner-rank-badge:before {
+    content: " ";
+    height: 0;
+    border-right: 6px solid var(--rank-background-color);
+    left: -6px;
+}
+
+.inner-rank-badge:after {
+    content: "";
+    right: -6px;
+    top: 0;
+    border-left: 6px solid var(--rank-background-color);
+    z-index: 2;
+}
+
+
+/*  */
 
 .honor::before {
     content: 'Honor: ';
@@ -158,7 +406,7 @@ header {
 
 textarea {
     min-height: 150px;
-    padding: 1em;
+    padding: .25em 1em;
     resize: none;
     background-color: #303133;
     border-radius: .75em;
@@ -182,6 +430,7 @@ textarea:focus {
 }
 
 .output > a {
+    align-self: flex-start;
     display: inline-block;
     padding: 0 1em;
     font-size: .9em;
